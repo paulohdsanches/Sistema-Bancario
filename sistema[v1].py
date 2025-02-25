@@ -1,3 +1,5 @@
+# Versão 1 do Sistema Bancário
+
 from colorama import init, Fore, Back
 init()
 
@@ -73,4 +75,7 @@ while True:
 
     else:
         print(Fore.RED + '\n\nX X X X X ' + Fore.RESET + 'Operação inválida! Favor selecionar operação do menu' + Fore.RED + ' X X X X X' + Fore.RESET)
+
+
+
 
