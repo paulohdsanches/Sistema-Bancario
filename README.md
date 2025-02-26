@@ -31,7 +31,8 @@ Se o extrato estiver em branco, exibir a mensagem: Não foram realizadas movimen
 
 Os valores devem ser exibidos utilizando o formato R$ xxx.xx, exemplo: 1500.45 = R$ 1500.45
 
-### ======================================================================================================================================
+#
+#
 
 # 🏛 Sistema Bancário v2
 
@@ -42,6 +43,18 @@ Estabelecer um limite de 10 transações diárias para uma conta.
 Se o usuário tentar fazer uma transação após atingir o limite, deve ser informado que ele excedeu o número de transações permitidas para aquele dia.
 
 Mostre no extrato, a data e hora de todas as transações.
+
+#
+#
+
+# 🏛 Sistema Bancário v3
+
+Separar as operações de saque, depósito e extrato em funções.
+
+Criar 2 novas funções:
+
+    - Cadastrar Cliente
+    - Cadastrar Conta
 
 
 
