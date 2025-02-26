@@ -1,6 +1,7 @@
 # Versão 3 do Sistema Bancário
 
 import textwrap
+from datetime import datetime
 from colorama import init, Fore, Back
 init()
 
@@ -19,22 +20,31 @@ def menu():
     return input(textwrap.dedent(menu))
 
 
-def depositar(saldo, valor, extrato, /):
+def depositar(saldo, valor, extrato, numero_transacoes, limite_transacoes, /):   
+
+    excedeu_transacoes = numero_transacoes >= limite_transacoes
+
+    if excedeu_transacoes:
+        print(f'\n❌ Operação não realizada! Você excedeu o limite de {limite_transacoes} transações diárias')
+
+
     
-    if valor > 0:
+    elif valor > 0:
+        data = datetime.now()
         saldo += valor
-        extrato += f"Depósito:\tR$ {valor:.2f}\n"
+        extrato += f'Depósito:\tR$ {valor:.2f}\t\t{data}\n'
+        numero_transacoes += 1
         print('\n✅ Depósito realizado com sucesso!')
     else:
         print('\n❌ Valor inválido! Tente novamente')
 
-    return saldo, extrato
+    return saldo, extrato, numero_transacoes
 
 
-def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
+def sacar(*, saldo, valor, extrato, limite, numero_transacoes, limite_transacoes):
     excedeu_saldo = valor > saldo
     excedeu_limite = valor > limite
-    excedeu_saques = numero_saques >= limite_saques
+    excedeu_transacoes = numero_transacoes >= limite_transacoes
 
     if excedeu_saldo:
         print(f'\n❌ Não há saldo suficiente! - seu saldo atual: R$ {saldo:.2f}')
@@ -42,23 +52,25 @@ def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
     elif excedeu_limite:
         print(f'\n❌ Não foi possível realizar o saque! - valor máximo por transação R$ {limite:.2f}')
 
-    elif excedeu_saques:
-        print(f'\n❌ Saque não realizado! Você excedeu o limite de saques diários')
+    elif excedeu_transacoes:
+        print(f'\n❌ Operação não realizada! Você excedeu o limite de {limite_transacoes} transações diárias')
 
     elif valor > 0:
+        data = datetime.now()
         saldo -= valor
-        extrato += f"Saque:\t\tR$ {valor:.2f}\n"
-        numero_saques += 1
+        extrato += f'Saque:\t\tR$ {valor:.2f}\t\t{data}\n'
+        numero_transacoes += 1
         print("\n✅ Saque realizado com sucesso!")
 
     else:
         print('❌ Valor inválido! Tente novamente')
 
-    return saldo, extrato
+    return saldo, extrato, numero_transacoes
 
 
 def exibir_extrato(saldo, /, *, extrato):
-    print("\n📃 EXTRATO\n")
+    data = datetime.now()
+    print(f'\n📃 EXTRATO - Gerado: {data} \n')
     print("Não foram realizadas movimentações." if not extrato else extrato)
     print(f"\nSaldo:\t\tR$ {saldo:.2f}")
     print("==========================================")
@@ -109,15 +121,15 @@ def listar_contas(contas):
 
 
 def main():
-    LIMITE_SAQUES = 3
     AGENCIA = "0001"
 
     saldo = 0
     limite = 500
     extrato = ""
-    numero_saques = 0
     clientes = []
     contas = []
+    LIMITE_TRANSACOES = 10
+    numero_transacoes = 0
 
     while True:
         opcao = menu()
@@ -126,19 +138,20 @@ def main():
             print('\n📩  DEPÓSITO\n')
             valor = float(input("Informe o valor do depósito: "))
 
-            saldo, extrato = depositar(saldo, valor, extrato)
-
+            saldo, extrato, numero_transacoes = depositar(saldo, valor, extrato, numero_transacoes, LIMITE_TRANSACOES)
+               
+                           
         elif opcao == "2":
             print('\n💵  SAQUE\n')
             valor = float(input("Informe o valor do saque: "))
 
-            saldo, extrato = sacar(
+            saldo, extrato, numero_transacoes = sacar(
                 saldo=saldo,
                 valor=valor,
                 extrato=extrato,
                 limite=limite,
-                numero_saques=numero_saques,
-                limite_saques=LIMITE_SAQUES,
+                numero_transacoes=numero_transacoes,
+                limite_transacoes=LIMITE_TRANSACOES,
             )
 
         elif opcao == "3":
