@@ -56,7 +56,23 @@ Criar 2 novas funções:
     - Cadastrar Cliente
     - Cadastrar Conta
 
+#
+#
 
+# 🏛 Sistema Bancário v4
+
+Atualizar a implementação do Sistema Bancário, para armazenar os dados de clientes e contas bancárias em objetos ao invés de dicionários.
+
+O código deve seguir o modelo de classes UML a seguir:
+
+![alt text](image.png)
+
+#
+#
+
+# 🏛 Sistema Bancário v5
+
+Atualizar os métodos que tratam as opções do menu para funcionarem com as classes modeladas na v4.
 
 
 

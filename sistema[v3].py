@@ -2,8 +2,7 @@
 
 import textwrap
 from datetime import datetime
-from colorama import init, Fore, Back
-init()
+
 
 
 def menu():
